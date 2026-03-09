@@ -1,0 +1,11 @@
+[
+  {
+    "slug": "your-first-post",
+    "title": "Your First Post",
+    "summary": "A short 1-2 line description that appears on cards.",
+    "publishedAt": "2026-03-06",
+    "readTime": "4 min read",
+    "tags": ["Engineering", "Portfolio"],
+    "markdown": "# Start Here\n\nThis is the first paragraph of your post.\n\n## Key Takeaways\n\n- Keep your posts short and practical.\n- Add links like [GitHub](https://github.com).\n- Use inline code like `npm run dev`.\n\n```bash\nnpm run dev\n```"
+  }
+]
