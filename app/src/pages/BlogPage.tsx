@@ -77,7 +77,7 @@ export default function BlogPage({ scrollY }: BlogPageProps) {
                       ))}
                     </div>
                     <a
-                      href={`/blog/${post.slug}`}
+                      href={`/blog/${encodeURIComponent(post.slug)}`}
                       className="inline-flex items-center gap-2 text-sm font-medium text-[var(--apple-blue)] hover:underline"
                     >
                       Read article

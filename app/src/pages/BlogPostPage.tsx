@@ -159,7 +159,7 @@ export default function BlogPostPage({ slug, scrollY }: BlogPostPageProps) {
                   {relatedPosts.map((item) => (
                     <a
                       key={item.slug}
-                      href={`/blog/${item.slug}`}
+                      href={`/blog/${encodeURIComponent(item.slug)}`}
                       className="rounded-xl border border-black/10 bg-[var(--apple-gray)]/50 p-4 hover:border-[var(--apple-blue)]/30 hover:shadow-sm transition-all"
                     >
                       <p className="text-xs text-[var(--apple-text)] mb-1">

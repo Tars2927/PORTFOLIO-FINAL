@@ -64,7 +64,13 @@ function App() {
     }
 
     if (pathname.startsWith('/blog/')) {
-      const slug = decodeURIComponent(pathname.slice('/blog/'.length));
+      const rawSlug = pathname.slice('/blog/'.length);
+      let slug = rawSlug;
+      try {
+        slug = decodeURIComponent(rawSlug);
+      } catch {
+        slug = rawSlug;
+      }
       return <BlogPostPage slug={slug} scrollY={scrollY} />;
     }
 
