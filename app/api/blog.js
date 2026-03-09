@@ -36,7 +36,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, message: "Method not allowed" });
   }
 
-  if (!blogGithubOwner || !blogGithubRepo || !blogGithubToken) {
+  if (!blogGithubOwner || !blogGithubRepo) {
     return res.status(503).json({
       ok: false,
       message: "Blog service temporarily unavailable.",
@@ -59,13 +59,13 @@ export default async function handler(req, res) {
     );
     githubUrl.searchParams.set("ref", blogGithubBranch);
 
-    const githubResponse = await fetch(githubUrl, {
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${blogGithubToken}`,
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
-    });
+    const headers = {
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      ...(blogGithubToken ? { Authorization: `Bearer ${blogGithubToken}` } : {}),
+    };
+
+    const githubResponse = await fetch(githubUrl, { headers });
 
     if (!githubResponse.ok) {
       console.error("Blog GitHub fetch failed:", githubResponse.status);

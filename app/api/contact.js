@@ -12,13 +12,16 @@ const contactSchema = z.object({
 const contactWindowMs = Number(process.env.CONTACT_RATE_LIMIT_WINDOW_MS || 60000);
 const contactMaxPerWindow = Number(process.env.CONTACT_RATE_LIMIT_MAX || 8);
 const headerInjectionPattern = /[\r\n]/;
+const normalizeOrigin = (origin) =>
+  origin.trim().replace(/\/+$/, "").toLowerCase();
+
 const allowedOrigins = (
   process.env.CONTACT_ALLOWED_ORIGINS ||
   process.env.CONTACT_ORIGIN ||
   ""
 )
   .split(",")
-  .map((origin) => origin.trim())
+  .map((origin) => normalizeOrigin(origin))
   .filter(Boolean);
 
 const autoReplyEnabled = process.env.AUTO_REPLY_ENABLED === "true";
@@ -56,13 +59,14 @@ function cleanupRateStore() {
 
 function handleCors(req, res) {
   const origin = req.headers.origin;
+  const normalizedOrigin = origin ? normalizeOrigin(origin) : "";
   const originAllowed =
     !origin ||
     allowedOrigins.length === 0 ||
-    allowedOrigins.includes(origin);
+    allowedOrigins.includes(normalizedOrigin);
 
-  if (originAllowed && origin) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
+  if (originAllowed && normalizedOrigin) {
+    res.setHeader("Access-Control-Allow-Origin", normalizedOrigin);
     res.setHeader("Vary", "Origin");
   }
 
